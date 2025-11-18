@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>A10 – Cookie Example</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 700px;
+      margin: 40px auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    h1 {
+      text-align: center;
+    }
+    .card {
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      margin-top: 20px;
+    }
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      font-size: 0.9em;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <h1>Cookie Demo – A10</h1>
+
+  <p>This page sets a cookie named <strong>visitCount</strong> and displays how many times you have loaded this page.</p>
+
+  <div class="card">
+    <p id="cookieMessage">Checking cookies...</p>
+  </div>
+
+  <footer>
+    &copy; 
+    A10 – Sophia Egharevba – Due: 11/15/2024
+  </footer>
+
+  <script>
+    
+    function setCookie(name, value, days) {
+      const date = new Date();
+      date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+      const expires = "expires=" + date.toUTCString();
+      document.cookie = name + "=" + encodeURIComponent(value) + ";" + expires + ";path=/";
+    }
+
+   
+    function getCookie(name) {
+      const decodedCookie = decodeURIComponent(document.cookie);
+      const parts = decodedCookie.split(";");
+      const search = name + "=";
+
+      for (let i = 0; i < parts.length; i++) {
+        let c = parts[i].trim();
+        if (c.indexOf(search) === 0) {
+          return c.substring(search.length, c.length);
+        }
+      }
+      return "";
+    }
+
+    function updateVisitCount() {
+      let visits = getCookie("visitCount");
+
+      if (visits === "") {
+      
+        visits = 1;
+      } else {
+      
+        visits = parseInt(visits, 10) + 1;
+      }
+
+     
+      setCookie("visitCount", visits, 7);
+
+      const msg = document.getElementById("cookieMessage");
+      if (visits === 1) {
+        msg.textContent = "Welcome! This is your first visit to this page. A cookie has been set.";
+      } else {
+        msg.textContent = "Welcome back! You have loaded this page " + visits + " times.";
+      }
+    }
+
+    updateVisitCount();
+  </script>
+</body>
+</html>
